@@ -1,0 +1,9 @@
+includes/config.php
+.installed
+storage/rate-limits/*.json
+uploads/documents/*
+!uploads/documents/.gitkeep
+uploads/gallery/*
+!uploads/gallery/.gitkeep
+vendor/
+.DS_Store

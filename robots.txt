@@ -1,0 +1,13 @@
+User-agent: *
+Allow: /
+
+Disallow: /admin/
+Disallow: /api/
+Disallow: /includes/
+Disallow: /sql/
+Disallow: /storage/
+Disallow: /vendor/
+Disallow: /install.php
+Disallow: /uploads/documents/
+
+Sitemap: https://hourofgraceministries.org/sitemap.xml

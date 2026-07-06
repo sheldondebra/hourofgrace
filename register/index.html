@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Register — Hour of Grace Family Chapel International</title>
+  <meta name="description" content="Apply to join Hour of Grace UK Ministry. Recruitment for religious workers and ministers of religion in the United Kingdom." />
+  <link rel="canonical" href="https://hourofgraceministries.org/register/" />
+  <meta name="robots" content="index, follow" />
+  <meta name="theme-color" content="#3F3D8B" />
+  <link rel="icon" href="/assets/logo.png" type="image/png" />
+  <meta property="og:type" content="website" />
+  <meta property="og:locale" content="en_GB" />
+  <meta property="og:site_name" content="Hour of Grace Family Chapel International" />
+  <meta property="og:title" content="Register — Hour of Grace Family Chapel International" />
+  <meta property="og:description" content="Apply to join Hour of Grace UK Ministry as a religious worker or minister of religion." />
+  <meta property="og:url" content="https://hourofgraceministries.org/register/" />
+  <meta property="og:image" content="https://hourofgraceministries.org/assets/logo.png" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,400&family=Source+Serif+4:ital,opsz,wght@0,8..60,500;0,8..60,600;0,8..60,700;1,8..60,400&display=swap" rel="stylesheet" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            brand: { purple: '#3F3D8B', 'purple-dark': '#2E2C6A', sky: '#87CEEB', cream: '#FAFAF8' },
+          },
+          fontFamily: {
+            sans: ['DM Sans', 'system-ui', 'sans-serif'],
+            serif: ['Source Serif 4', 'Georgia', 'serif'],
+          },
+        },
+      },
+    };
+  </script>
+  <link rel="stylesheet" href="/css/custom.css" />
+</head>
+<body class="font-sans text-slate-800 bg-brand-cream antialiased">
+
+  <div id="site-header"></div>
+
+  <main class="pt-[72px]">
+    <section class="py-16 lg:py-20 bg-white border-b border-slate-100">
+      <div class="max-w-4xl mx-auto px-5 lg:px-8">
+        <p class="section-label text-brand-purple text-xs uppercase font-medium mb-4">Ministry Recruitment</p>
+        <h1 class="font-serif text-4xl md:text-5xl text-slate-900 max-w-3xl leading-tight">Join Hour of Grace UK Ministry</h1>
+        <p class="text-slate-600 mt-5 max-w-2xl text-[15px] leading-relaxed">
+          Complete the application in five steps. Review your details and uploaded documents before submitting. Application period extended to December 2026.
+        </p>
+      </div>
+    </section>
+
+    <section class="py-12 lg:py-16">
+      <div class="max-w-4xl mx-auto px-5 lg:px-8">
+        <div class="mb-8 p-6 md:p-8 rounded-2xl bg-brand-purple/5 border border-brand-purple/10">
+          <h2 class="font-serif text-lg text-slate-900 mb-3">Church Recruitment Opportunity</h2>
+          <p class="text-slate-600 text-sm leading-relaxed mb-3">
+            Hour of Grace Family Chapel invites passionate individuals seeking to serve as religious workers and ministers of religion in the United Kingdom. Roles include instrumentalists, fellowship leaders, charity workers, pastors, Bible teachers, and more.
+          </p>
+          <p class="text-slate-600 text-sm leading-relaxed">
+            <strong>Note:</strong> A valid DBS check is required. For inquiries, call
+            <a href="tel:07482673887" class="text-brand-purple hover:underline">07482 673887</a>
+            or email
+            <a href="mailto:info@hourofgraceministries.org" class="text-brand-purple hover:underline">info@hourofgraceministries.org</a>.
+          </p>
+          <p class="text-slate-500 text-sm mt-3">403a York Road, Leeds, LS9 6TD</p>
+        </div>
+
+        <div id="register-wizard" class="bg-white rounded-2xl border border-slate-100 overflow-hidden">
+          <div class="register-wizard-head px-6 md:px-8 pt-8 pb-6 border-b border-slate-100">
+            <h2 class="font-serif text-xl text-slate-900 mb-6">Ministry Application</h2>
+            <ol id="register-step-nav" class="register-step-nav" aria-label="Application steps"></ol>
+          </div>
+
+          <form id="register-wizard-form" data-endpoint="/api/submit-register.php" class="register-wizard-body" enctype="multipart/form-data" novalidate>
+            <input type="text" name="website" tabindex="-1" autocomplete="off" class="hp-field" aria-hidden="true" />
+            <!-- Step 1 -->
+            <div class="register-panel" data-register-step="1">
+              <h3 class="register-panel-title">Personal details</h3>
+              <p class="register-panel-desc">Tell us about yourself and where you are based.</p>
+
+              <div class="grid sm:grid-cols-2 gap-5">
+                <div>
+                  <label for="name" class="form-label">Full name</label>
+                  <input type="text" id="name" name="name" required class="form-input" autocomplete="name" placeholder="Your full name" />
+                </div>
+                <div>
+                  <label for="email" class="form-label">Email address</label>
+                  <input type="email" id="email" name="email" required class="form-input" autocomplete="email" placeholder="you@example.com" />
+                </div>
+              </div>
+
+              <div class="mt-5">
+                <label for="address" class="form-label">Home address</label>
+                <input type="text" id="address" name="address" required class="form-input" autocomplete="street-address" placeholder="Street, city, postcode" />
+              </div>
+
+              <div class="grid sm:grid-cols-2 gap-5 mt-5">
+                <div>
+                  <label for="dob" class="form-label">Date of birth</label>
+                  <input type="date" id="dob" name="dob" required class="form-input" />
+                </div>
+                <div>
+                  <label for="country-birth" class="form-label">Country of birth</label>
+                  <input type="text" id="country-birth" name="country_birth" required class="form-input" placeholder="e.g. Ghana" />
+                </div>
+              </div>
+
+              <div class="mt-5">
+                <label for="country-resident" class="form-label">Country of residence</label>
+                <input type="text" id="country-resident" name="country_resident" required class="form-input" placeholder="e.g. United Kingdom" />
+              </div>
+            </div>
+
+            <!-- Step 2 -->
+            <div class="register-panel" data-register-step="2" hidden>
+              <h3 class="register-panel-title">Role &amp; education</h3>
+              <p class="register-panel-desc">Share your qualifications and the ministry role you are applying for.</p>
+
+              <div class="mt-5">
+                <label for="education" class="form-label">Highest level of education</label>
+                <input type="text" id="education" name="education" required class="form-input" placeholder="e.g. Bachelor's degree" />
+              </div>
+
+              <div class="grid sm:grid-cols-2 gap-5 mt-5">
+                <div>
+                  <label for="job-category" class="form-label">Category of job</label>
+                  <select id="job-category" name="job_category" required class="form-select">
+                    <option value="">Select category</option>
+                    <option value="minister">Minister of Religion</option>
+                    <option value="worker">Religious Worker</option>
+                  </select>
+                </div>
+                <div>
+                  <label for="job-interest" class="form-label">Area of job interest</label>
+                  <select id="job-interest" name="job_interest" required class="form-select">
+                    <option value="">Select area</option>
+                    <option value="singer">Singer</option>
+                    <option value="organist">Organist</option>
+                    <option value="guitarist">Guitarist</option>
+                    <option value="drummer">Drummer</option>
+                    <option value="trumpeter">Trumpeter</option>
+                    <option value="bible-teacher">Bible Teacher</option>
+                    <option value="sound-engineer">Sound Engineer</option>
+                    <option value="children-bible-teacher">Children's Bible Teacher</option>
+                    <option value="pastor">Pastor</option>
+                    <option value="evangelism-leader">Leader of Evangelism</option>
+                    <option value="youth-leader">Leader of Youth Ministry</option>
+                    <option value="procurement">Procurement Officers</option>
+                    <option value="women-fellowship">Women's Fellowship Leaders</option>
+                    <option value="men-fellowship">Men's Fellowship Leaders</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="mt-5">
+                <label for="religion" class="form-label">Religion</label>
+                <input type="text" id="religion" name="religion" required class="form-input" placeholder="e.g. Christianity" />
+              </div>
+            </div>
+
+            <!-- Step 3 -->
+            <div class="register-panel" data-register-step="3" hidden>
+              <h3 class="register-panel-title">Faith &amp; baptism</h3>
+              <p class="register-panel-desc">Help us understand your spiritual background.</p>
+
+              <div class="grid sm:grid-cols-2 gap-5 mt-5">
+                <div>
+                  <label for="born-again" class="form-label">Are you born again?</label>
+                  <select id="born-again" name="born_again" required class="form-select">
+                    <option value="">Select</option>
+                    <option value="yes">Yes</option>
+                    <option value="no">No</option>
+                  </select>
+                </div>
+                <div>
+                  <label for="baptized" class="form-label">Have you been baptised?</label>
+                  <select id="baptized" name="baptized" required class="form-select">
+                    <option value="">Select</option>
+                    <option value="yes">Yes</option>
+                    <option value="no">No</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="grid sm:grid-cols-2 gap-5 mt-5">
+                <div>
+                  <label for="baptism-year" class="form-label">Year of baptism <span class="text-slate-400 font-normal">(optional)</span></label>
+                  <input type="text" id="baptism-year" name="baptism_year" class="form-input" placeholder="e.g. 2015" />
+                </div>
+                <div>
+                  <label for="baptism-church" class="form-label">Church of baptism <span class="text-slate-400 font-normal">(optional)</span></label>
+                  <input type="text" id="baptism-church" name="baptism_church" class="form-input" placeholder="Church name" />
+                </div>
+              </div>
+
+              <div class="mt-5">
+                <label for="baptizer" class="form-label">Name of baptizer <span class="text-slate-400 font-normal">(optional)</span></label>
+                <input type="text" id="baptizer" name="baptizer" class="form-input" placeholder="Pastor or minister name" />
+              </div>
+            </div>
+
+            <!-- Step 4 -->
+            <div class="register-panel" data-register-step="4" hidden>
+              <h3 class="register-panel-title">Supporting documents</h3>
+              <p class="register-panel-desc">Upload baptism certificates, educational certificates, or other relevant documents. You can preview images before submitting.</p>
+
+              <div class="register-upload mt-5">
+                <label for="documents" class="register-upload-label">
+                  <svg class="w-8 h-8 text-brand-purple mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"/></svg>
+                  <span class="font-medium text-slate-900">Choose files to upload</span>
+                  <span class="text-sm text-slate-500 mt-1">PDF, JPG, PNG, DOC — multiple files allowed</span>
+                </label>
+                <input type="file" id="documents" name="documents[]" multiple accept=".pdf,.jpg,.jpeg,.png,.doc,.docx,image/*" class="register-upload-input" />
+              </div>
+
+              <div id="register-doc-previews" class="register-doc-grid mt-6"></div>
+            </div>
+
+            <!-- Step 5 -->
+            <div class="register-panel" data-register-step="5" hidden>
+              <h3 class="register-panel-title">Review your application</h3>
+              <p class="register-panel-desc">Please check that all information is correct before submitting.</p>
+
+              <div id="register-review-summary" class="register-review mt-6"></div>
+
+              <div class="mt-8">
+                <h4 class="text-sm font-semibold text-slate-900 mb-3">Uploaded documents</h4>
+                <div id="register-review-docs" class="register-doc-grid"></div>
+              </div>
+
+              <p class="register-review-note mt-6">
+                By submitting this application, you confirm that the information provided is accurate to the best of your knowledge.
+              </p>
+            </div>
+
+            <div class="register-wizard-actions px-6 md:px-8 py-6 border-t border-slate-100 bg-slate-50/60 flex flex-wrap items-center justify-between gap-4">
+              <button type="button" id="register-back" class="register-btn-secondary" hidden>Back</button>
+              <div class="flex flex-wrap gap-3 ml-auto">
+                <button type="button" id="register-next" class="register-btn-primary">Continue</button>
+                <button type="submit" id="register-submit" class="register-btn-primary" hidden>Submit application</button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <div id="site-footer"></div>
+  <script src="/js/main.js"></script>
+  <script src="/js/register-form.js"></script>
+</body>
+</html>

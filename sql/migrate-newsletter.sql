@@ -1,0 +1,7 @@
+CREATE TABLE IF NOT EXISTS newsletter_subscribers (
+    id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    email VARCHAR(180) NOT NULL,
+    is_active TINYINT(1) NOT NULL DEFAULT 1,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    UNIQUE KEY uniq_newsletter_email (email)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;

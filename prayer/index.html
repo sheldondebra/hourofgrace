@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Prayer Request — Hour of Grace Family Chapel International</title>
+  <meta name="description" content="Submit a prayer request to Hour of Grace Ministries International. Our prayer team is ready to stand with you in faith." />
+  <link rel="canonical" href="https://hourofgraceministries.org/prayer/" />
+  <meta name="robots" content="index, follow" />
+  <meta name="theme-color" content="#3F3D8B" />
+  <link rel="icon" href="/assets/logo.png" type="image/png" />
+  <meta property="og:type" content="website" />
+  <meta property="og:locale" content="en_GB" />
+  <meta property="og:site_name" content="Hour of Grace Family Chapel International" />
+  <meta property="og:title" content="Prayer Request — Hour of Grace Family Chapel International" />
+  <meta property="og:description" content="Submit a prayer request to Hour of Grace Ministries International." />
+  <meta property="og:url" content="https://hourofgraceministries.org/prayer/" />
+  <meta property="og:image" content="https://hourofgraceministries.org/assets/logo.png" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,400&family=Source+Serif+4:ital,opsz,wght@0,8..60,500;0,8..60,600;0,8..60,700;1,8..60,400&display=swap" rel="stylesheet" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            brand: { purple: '#3F3D8B', 'purple-dark': '#2E2C6A', sky: '#87CEEB', cream: '#FAFAF8' },
+          },
+          fontFamily: {
+            sans: ['DM Sans', 'system-ui', 'sans-serif'],
+            serif: ['Source Serif 4', 'Georgia', 'serif'],
+          },
+        },
+      },
+    };
+  </script>
+  <link rel="stylesheet" href="/css/custom.css" />
+</head>
+<body class="font-sans text-slate-800 bg-brand-cream antialiased">
+
+  <div id="site-header"></div>
+
+  <main class="pt-[72px]">
+    <section class="py-16 lg:py-20 bg-white border-b border-slate-100">
+      <div class="max-w-6xl mx-auto px-5 lg:px-8">
+        <div class="max-w-2xl">
+          <p class="section-label text-brand-purple text-xs uppercase font-medium mb-4">Prayer Ministry</p>
+          <h1 class="font-serif text-4xl md:text-5xl text-slate-900 leading-tight">Submit a Prayer Request</h1>
+          <p class="text-slate-600 mt-5 text-[15px] leading-relaxed">
+            You do not have to carry your burden alone. Share your request below and our prayer team will stand with you in faith. All requests are handled with care and discretion.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section class="py-16 lg:py-24">
+      <div class="max-w-6xl mx-auto px-5 lg:px-8">
+        <div class="grid lg:grid-cols-12 gap-10 lg:gap-14 items-start">
+          <aside class="lg:col-span-4 space-y-5">
+            <blockquote class="prayer-quote">
+              <p>“Do not be anxious about anything, but in every situation, by prayer and petition, with thanksgiving, present your requests to God.”</p>
+              <footer>Philippians 4:6</footer>
+            </blockquote>
+
+            <div class="prayer-info-card">
+              <h2 class="prayer-info-title">What happens next</h2>
+              <ul class="prayer-steps">
+                <li>
+                  <span class="prayer-step-num">1</span>
+                  <span>You submit your request using the form.</span>
+                </li>
+                <li>
+                  <span class="prayer-step-num">2</span>
+                  <span>Our prayer team receives it securely.</span>
+                </li>
+                <li>
+                  <span class="prayer-step-num">3</span>
+                  <span>We pray for you during our scheduled prayer meetings.</span>
+                </li>
+              </ul>
+            </div>
+
+            <div class="prayer-info-card">
+              <h2 class="prayer-info-title">Prayer meeting times</h2>
+              <ul class="prayer-schedule">
+                <li>
+                  <span class="prayer-schedule-day">Wednesday</span>
+                  <span class="prayer-schedule-time">6:00 PM – 8:00 PM</span>
+                </li>
+                <li>
+                  <span class="prayer-schedule-day">Saturday</span>
+                  <span class="prayer-schedule-time">2:00 PM – 4:00 PM</span>
+                </li>
+                <li>
+                  <span class="prayer-schedule-day">Last Friday (monthly)</span>
+                  <span class="prayer-schedule-time">Night vigil · 8:30 PM – 12:00 AM</span>
+                </li>
+              </ul>
+            </div>
+
+            <p class="text-sm text-slate-500 leading-relaxed">
+              Need urgent pastoral support? Call
+              <a href="tel:07482673887" class="text-brand-purple hover:underline">07482 673887</a>
+              or email
+              <a href="mailto:info@hourofgraceministries.org" class="text-brand-purple hover:underline">info@hourofgraceministries.org</a>
+            </p>
+          </aside>
+
+          <div class="lg:col-span-8">
+            <div class="prayer-form-panel">
+              <div class="prayer-form-head">
+                <h2 class="font-serif text-2xl text-slate-900">Your request</h2>
+                <p class="text-slate-500 text-sm mt-1">Fields marked with * are required.</p>
+              </div>
+
+              <form data-form data-endpoint="/api/submit-prayer.php" class="prayer-form">
+                <div class="grid sm:grid-cols-2 gap-5">
+                  <div>
+                    <label for="name" class="form-label">Full name *</label>
+                    <input type="text" id="name" name="name" required class="form-input" placeholder="Your name" autocomplete="name" />
+                  </div>
+                  <div>
+                    <label for="email" class="form-label">Email *</label>
+                    <input type="email" id="email" name="email" required class="form-input" placeholder="you@example.com" autocomplete="email" />
+                  </div>
+                </div>
+
+                <div>
+                  <label for="phone" class="form-label">Phone <span class="text-slate-400 font-normal">(optional)</span></label>
+                  <input type="tel" id="phone" name="phone" class="form-input" placeholder="+44 …" autocomplete="tel" />
+                </div>
+
+                <div>
+                  <label for="request" class="form-label">Prayer request *</label>
+                  <textarea id="request" name="request" rows="7" required class="form-input resize-none" placeholder="Share what you would like us to pray for…"></textarea>
+                </div>
+
+                <label class="prayer-private-option">
+                  <input type="checkbox" name="is_private" value="1" />
+                  <span>
+                    <strong>Keep this request private</strong>
+                    <small>Only the prayer team will see your request.</small>
+                  </span>
+                </label>
+
+                <button type="submit" class="prayer-submit-btn">
+                  Submit prayer request
+                </button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <div id="site-footer"></div>
+  <script src="/js/main.js"></script>
+</body>
+</html>

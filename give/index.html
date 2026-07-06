@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Give — Hour of Grace Family Chapel International</title>
+  <meta name="description" content="Give your tithe, offertory, and offerings online to Hour of Grace Family Chapel International. Secure giving by card or PayPal." />
+  <link rel="canonical" href="https://hourofgraceministries.org/give/" />
+  <meta name="robots" content="index, follow" />
+  <meta name="theme-color" content="#3F3D8B" />
+  <link rel="icon" href="/assets/logo.png" type="image/png" />
+  <meta property="og:type" content="website" />
+  <meta property="og:locale" content="en_GB" />
+  <meta property="og:site_name" content="Hour of Grace Family Chapel International" />
+  <meta property="og:title" content="Give — Hour of Grace Family Chapel International" />
+  <meta property="og:description" content="Support the ministry through tithe, offertory, and freewill giving." />
+  <meta property="og:url" content="https://hourofgraceministries.org/give/" />
+  <meta property="og:image" content="https://hourofgraceministries.org/assets/logo.png" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,400&family=Source+Serif+4:ital,opsz,wght@0,8..60,500;0,8..60,600;0,8..60,700;1,8..60,400&display=swap" rel="stylesheet" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            brand: { purple: '#3F3D8B', 'purple-dark': '#2E2C6A', sky: '#87CEEB', cream: '#FAFAF8' },
+          },
+          fontFamily: {
+            sans: ['DM Sans', 'system-ui', 'sans-serif'],
+            serif: ['Source Serif 4', 'Georgia', 'serif'],
+          },
+        },
+      },
+    };
+  </script>
+  <link rel="stylesheet" href="/css/custom.css" />
+</head>
+<body class="font-sans text-slate-800 bg-brand-cream antialiased">
+
+  <div id="site-header"></div>
+
+  <main class="pt-[72px]">
+    <section class="py-16 lg:py-20 bg-white border-b border-slate-100">
+      <div class="max-w-6xl mx-auto px-5 lg:px-8">
+        <div class="grid lg:grid-cols-12 gap-10 lg:gap-14 items-end">
+          <div class="lg:col-span-8">
+            <p class="section-label text-brand-purple text-xs uppercase font-medium mb-4">Online Giving</p>
+            <h1 class="font-serif text-4xl md:text-5xl text-slate-900 leading-tight max-w-2xl">Give generously</h1>
+            <p id="giving-intro" class="text-slate-600 mt-5 max-w-xl text-[15px] leading-relaxed">
+              Support the ministry through tithe, offertory, and freewill giving. Your gift helps us worship, serve, and reach our community.
+            </p>
+          </div>
+          <div class="lg:col-span-4 lg:text-right">
+            <ul class="giving-trust-badges">
+              <li>
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/></svg>
+                Secure checkout
+              </li>
+              <li>
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
+                Stripe &amp; PayPal
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="py-16 lg:py-24">
+      <div class="max-w-6xl mx-auto px-5 lg:px-8">
+        <div id="giving-loading" class="giving-loading">
+          <div class="giving-loading-panel"></div>
+          <div class="giving-loading-sidebar"></div>
+        </div>
+
+        <div id="giving-success" class="hidden giving-state-card giving-state-card--success">
+          <div class="giving-state-icon" aria-hidden="true">
+            <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+          </div>
+          <h2 class="font-serif text-2xl text-slate-900 mb-2">Thank you for your gift</h2>
+          <p class="text-slate-600 text-[15px] leading-relaxed max-w-lg mx-auto">
+            Your generous support helps us continue worship, outreach, and ministry. May God bless you abundantly.
+          </p>
+          <a href="/give/" class="school-hero-btn school-hero-btn--primary mt-6">Give again</a>
+        </div>
+
+        <div id="giving-main" class="hidden giving-layout">
+          <aside class="giving-sidebar space-y-5">
+            <blockquote class="prayer-quote">
+              <p>“Each of you should give what you have decided in your heart to give, not reluctantly or under compulsion, for God loves a cheerful giver.”</p>
+              <footer>2 Corinthians 9:7</footer>
+            </blockquote>
+
+            <div class="prayer-info-card">
+              <h2 class="prayer-info-title">Ways to give</h2>
+              <ul class="giving-way-list">
+                <li>
+                  <strong>Tithe</strong>
+                  <span>Returning a portion of your income in faith and obedience.</span>
+                </li>
+                <li>
+                  <strong>Offertory</strong>
+                  <span>Freewill gifts during worship to support the church's work.</span>
+                </li>
+                <li>
+                  <strong>Building &amp; missions</strong>
+                  <span>Designated gifts toward facilities, outreach, and mission work.</span>
+                </li>
+              </ul>
+            </div>
+
+            <div class="prayer-info-card">
+              <h2 class="prayer-info-title">How it works</h2>
+              <ul class="prayer-steps">
+                <li>
+                  <span class="prayer-step-num">1</span>
+                  <span>Choose your gift type and amount.</span>
+                </li>
+                <li>
+                  <span class="prayer-step-num">2</span>
+                  <span>Continue to secure Stripe or PayPal checkout.</span>
+                </li>
+                <li>
+                  <span class="prayer-step-num">3</span>
+                  <span>Receive confirmation once payment is complete.</span>
+                </li>
+              </ul>
+            </div>
+
+            <div id="giving-unavailable" class="hidden giving-notice giving-notice-warn">
+              <strong>Online giving is not active yet.</strong>
+              <p class="mt-2 mb-0">Please contact the church office or give in person during service. Payment can be enabled in the admin dashboard on the live site.</p>
+            </div>
+
+            <div id="giving-preview" class="hidden giving-notice giving-notice-info">
+              <strong>Preview mode</strong>
+              <p class="mt-2 mb-0">You are viewing the giving form locally. Payments work once the site is on your server with Stripe or PayPal configured in Admin → Online Giving.</p>
+            </div>
+
+            <div id="giving-cancelled" class="hidden giving-notice giving-notice-warn">
+              Payment was cancelled. You can try again whenever you are ready.
+            </div>
+
+            <p class="text-sm text-slate-500 leading-relaxed">
+              Questions about giving? Call
+              <a href="tel:07482673887" class="text-brand-purple hover:underline">07482 673887</a>
+              or email
+              <a href="mailto:info@hourofgraceministries.org" class="text-brand-purple hover:underline">info@hourofgraceministries.org</a>
+            </p>
+          </aside>
+
+          <div class="giving-panel">
+            <div class="giving-panel-head">
+              <h2 class="font-serif text-2xl text-slate-900">Your gift</h2>
+              <p class="text-slate-500 text-sm mt-1">Complete the form below to proceed to secure payment.</p>
+            </div>
+
+            <form id="giving-form" class="giving-form-inner">
+              <input type="text" name="website" tabindex="-1" autocomplete="off" class="hp-field" aria-hidden="true" />
+
+              <div class="giving-section">
+                <label class="form-label">Gift type</label>
+                <div class="giving-type-grid">
+                  <label class="giving-type-option">
+                    <input type="radio" name="gift_type" value="tithe" required checked />
+                    <span class="giving-type-label">Tithe</span>
+                  </label>
+                  <label class="giving-type-option">
+                    <input type="radio" name="gift_type" value="offertory" />
+                    <span class="giving-type-label">Offertory</span>
+                  </label>
+                  <label class="giving-type-option">
+                    <input type="radio" name="gift_type" value="offering" />
+                    <span class="giving-type-label">Offering</span>
+                  </label>
+                  <label class="giving-type-option">
+                    <input type="radio" name="gift_type" value="building" />
+                    <span class="giving-type-label">Building Fund</span>
+                  </label>
+                  <label class="giving-type-option">
+                    <input type="radio" name="gift_type" value="mission" />
+                    <span class="giving-type-label">Missions</span>
+                  </label>
+                  <label class="giving-type-option">
+                    <input type="radio" name="gift_type" value="other" />
+                    <span class="giving-type-label">Other</span>
+                  </label>
+                </div>
+                <p id="giving-type-desc" class="giving-type-desc">Returning a portion of your income in faith and obedience.</p>
+              </div>
+
+              <div class="giving-section">
+                <label class="form-label" for="giving-amount">Amount (£)</label>
+                <div class="giving-amount-presets">
+                  <button type="button" class="giving-amount-btn" data-amount="10">£10</button>
+                  <button type="button" class="giving-amount-btn" data-amount="20">£20</button>
+                  <button type="button" class="giving-amount-btn" data-amount="50">£50</button>
+                  <button type="button" class="giving-amount-btn" data-amount="100">£100</button>
+                  <button type="button" class="giving-amount-btn" data-amount="250">£250</button>
+                </div>
+                <div class="giving-amount-field">
+                  <span class="giving-currency">£</span>
+                  <input type="number" id="giving-amount" name="amount" min="1" step="0.01" required class="form-input" placeholder="0.00" />
+                </div>
+                <p id="giving-summary" class="giving-summary hidden">Your gift: <strong>—</strong></p>
+              </div>
+
+              <div class="grid sm:grid-cols-2 gap-5 giving-section">
+                <div>
+                  <label for="giving-name" class="form-label">Name <span class="text-slate-400 font-normal">(optional)</span></label>
+                  <input type="text" id="giving-name" name="name" class="form-input" placeholder="Your name" autocomplete="name" />
+                </div>
+                <div>
+                  <label for="giving-email" class="form-label">Email <span class="text-slate-400 font-normal">(optional)</span></label>
+                  <input type="email" id="giving-email" name="email" class="form-input" placeholder="you@example.com" autocomplete="email" />
+                </div>
+              </div>
+
+              <div class="giving-section">
+                <label for="giving-message" class="form-label">Note <span class="text-slate-400 font-normal">(optional)</span></label>
+                <textarea id="giving-message" name="message" rows="3" class="form-input resize-none" placeholder="Dedication or prayer request with your gift"></textarea>
+              </div>
+
+              <div class="giving-section">
+                <label class="form-label">Payment method</label>
+                <div class="giving-pay-methods">
+                  <label id="pay-stripe-wrap" class="giving-pay-option hidden">
+                    <input type="radio" name="provider" value="stripe" />
+                    <span class="giving-pay-icon" aria-hidden="true">
+                      <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"/></svg>
+                    </span>
+                    <span>
+                      <strong>Debit / credit card</strong>
+                      <small>Secure checkout via Stripe</small>
+                    </span>
+                  </label>
+                  <label id="pay-paypal-wrap" class="giving-pay-option hidden">
+                    <input type="radio" name="provider" value="paypal" />
+                    <span class="giving-pay-icon giving-pay-icon--paypal" aria-hidden="true">
+                      <svg class="w-5 h-5" viewBox="0 0 24 24" fill="currentColor"><path d="M7.076 21.337H2.47a.641.641 0 01-.633-.74L4.944 3.72a.77.77 0 01.758-.647h6.946c2.31 0 4.046.548 5.164 1.63 1.118 1.082 1.553 2.647 1.296 4.655-.285 2.19-1.083 3.882-2.372 5.032-1.289 1.15-3.028 1.733-5.182 1.733H9.69l-.962 5.98a.641.641 0 01-.633.534h-.019z"/></svg>
+                    </span>
+                    <span>
+                      <strong>PayPal</strong>
+                      <small>Pay with your PayPal account</small>
+                    </span>
+                  </label>
+                </div>
+              </div>
+
+              <button type="submit" id="giving-submit" class="giving-submit-btn">Continue to secure payment</button>
+              <p class="giving-secure-note">
+                <svg class="w-3.5 h-3.5 inline-block -mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/></svg>
+                Payments are processed securely. Hour of Grace does not store card details.
+              </p>
+            </form>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <div id="site-footer"></div>
+  <script src="/js/main.js"></script>
+  <script src="/js/giving.js"></script>
+</body>
+</html>

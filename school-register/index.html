@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>School Registration — Hour of Grace Bible College &amp; Bible School</title>
+  <meta name="description" content="Register for Hour of Grace Bible College UK or Bible School. Admissions open for pastors, church leaders, and church workers." />
+  <link rel="canonical" href="https://hourofgraceministries.org/school-register/" />
+  <meta name="robots" content="index, follow" />
+  <meta name="theme-color" content="#3F3D8B" />
+  <link rel="icon" href="/assets/logo.png" type="image/png" />
+  <meta property="og:type" content="website" />
+  <meta property="og:locale" content="en_GB" />
+  <meta property="og:site_name" content="Hour of Grace Family Chapel International" />
+  <meta property="og:title" content="School Registration — Hour of Grace Family Chapel International" />
+  <meta property="og:description" content="Register for Hour of Grace Bible College UK or Bible School." />
+  <meta property="og:url" content="https://hourofgraceministries.org/school-register/" />
+  <meta property="og:image" content="https://hourofgraceministries.org/assets/logo.png" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,400&family=Source+Serif+4:ital,opsz,wght@0,8..60,500;0,8..60,600;0,8..60,700;1,8..60,400&display=swap" rel="stylesheet" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            brand: { purple: '#3F3D8B', 'purple-dark': '#2E2C6A', sky: '#87CEEB', cream: '#FAFAF8' },
+          },
+          fontFamily: {
+            sans: ['DM Sans', 'system-ui', 'sans-serif'],
+            serif: ['Source Serif 4', 'Georgia', 'serif'],
+          },
+        },
+      },
+    };
+  </script>
+  <link rel="stylesheet" href="/css/custom.css" />
+</head>
+<body class="font-sans text-slate-800 bg-brand-cream antialiased">
+
+  <div id="site-header"></div>
+
+  <main class="pt-[72px]">
+    <section class="py-16 lg:py-20 bg-white border-b border-slate-100">
+      <div class="max-w-6xl mx-auto px-5 lg:px-8">
+        <p class="section-label text-brand-purple text-xs uppercase font-medium mb-4">School Registration</p>
+        <h1 class="font-serif text-4xl md:text-5xl text-slate-900 max-w-3xl leading-tight">Register for Bible College or Bible School</h1>
+        <p class="text-slate-600 mt-5 max-w-2xl text-[15px] leading-relaxed">
+          Complete the form below to apply for admission. Our team will review your application and get in touch with you.
+        </p>
+      </div>
+    </section>
+
+    <section class="py-12 lg:py-16">
+      <div class="max-w-3xl mx-auto px-5 lg:px-8">
+        <div class="mb-8 p-6 rounded-2xl bg-white border border-slate-100 text-sm text-slate-600 leading-relaxed">
+          <p class="mb-2"><strong class="text-slate-900">Leeds — Bible College (UK):</strong> 403a York Road, Leeds, LS9 6TD</p>
+          <p><strong class="text-slate-900">London — Bible School:</strong> 403 York Road, Barking, London, IG11 8TD</p>
+        </div>
+
+        <div class="bg-white rounded-2xl border border-slate-100 p-8 md:p-10">
+          <h2 class="font-serif text-xl text-slate-900 mb-2">Registration Form</h2>
+          <p class="text-slate-500 text-sm mb-8">Fields marked with * are required.</p>
+
+          <form data-form data-endpoint="/api/submit-school-register.php" class="space-y-6">
+            <div class="grid sm:grid-cols-2 gap-5">
+              <div>
+                <label for="name" class="form-label">Full Name *</label>
+                <input type="text" id="name" name="name" required class="form-input" placeholder="Your full name" />
+              </div>
+              <div>
+                <label for="email" class="form-label">Email *</label>
+                <input type="email" id="email" name="email" required class="form-input" placeholder="you@example.com" />
+              </div>
+            </div>
+
+            <div class="grid sm:grid-cols-2 gap-5">
+              <div>
+                <label for="phone" class="form-label">Phone *</label>
+                <input type="tel" id="phone" name="phone" required class="form-input" placeholder="07..." />
+              </div>
+              <div>
+                <label for="education" class="form-label">Highest Level of Education *</label>
+                <input type="text" id="education" name="education" required class="form-input" placeholder="e.g. GCSE, A-Level, degree" />
+              </div>
+            </div>
+
+            <div>
+              <label for="address" class="form-label">Home Address *</label>
+              <input type="text" id="address" name="address" required class="form-input" placeholder="Street, city, postcode" />
+            </div>
+
+            <div class="grid sm:grid-cols-2 gap-5">
+              <div>
+                <label for="programme" class="form-label">Programme *</label>
+                <select id="programme" name="programme" required class="form-select">
+                  <option value="">Select programme</option>
+                  <option value="leeds-college">Bible College (UK) — Leeds</option>
+                  <option value="london-school">Bible School — London</option>
+                </select>
+              </div>
+              <div>
+                <label for="role" class="form-label">Your Role *</label>
+                <select id="role" name="role" required class="form-select">
+                  <option value="">Select role</option>
+                  <option value="pastor">Pastor / Minister</option>
+                  <option value="church-leader">Church Leader</option>
+                  <option value="church-worker">Church Worker</option>
+                  <option value="other">Other</option>
+                </select>
+              </div>
+            </div>
+
+            <div>
+              <label for="church_name" class="form-label">Church Name (optional)</label>
+              <input type="text" id="church_name" name="church_name" class="form-input" placeholder="Your church name" />
+            </div>
+
+            <div>
+              <label for="message" class="form-label">Additional Information (optional)</label>
+              <textarea id="message" name="message" rows="4" class="form-input resize-none" placeholder="Tell us about your ministry experience or any questions you have…"></textarea>
+            </div>
+
+            <button type="submit" class="w-full sm:w-auto inline-flex justify-center items-center px-10 py-3.5 rounded-full bg-brand-purple text-white text-sm font-medium hover:bg-brand-purple-dark transition-colors">
+              Submit Registration
+            </button>
+          </form>
+        </div>
+
+        <p class="text-center text-sm text-slate-500 mt-8">
+          Prefer to call? 
+          <a href="tel:07482673887" class="text-brand-purple hover:underline">07482 673887</a>
+          ·
+          <a href="/school/" class="text-brand-purple hover:underline">Back to school info</a>
+        </p>
+      </div>
+    </section>
+  </main>
+
+  <div id="site-footer"></div>
+  <script src="/js/main.js"></script>
+</body>
+</html>
