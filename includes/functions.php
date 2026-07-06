@@ -84,15 +84,10 @@ function gallery_public_url(string $path): string
         return $path;
     }
 
+    $rootRelative = '/' . ltrim($path, '/');
     $base = site_base_url();
-    if ($base !== '') {
-        return $base . '/' . ltrim($path, '/');
-    }
 
-    $scriptBase = rtrim(dirname($_SERVER['SCRIPT_NAME'] ?? ''), '/');
-    $scriptBase = preg_replace('#/api$#', '', $scriptBase);
-
-    return ($scriptBase !== '' ? $scriptBase : '') . '/' . ltrim($path, '/');
+    return $base !== '' ? $base . $rootRelative : $rootRelative;
 }
 
 function site_base_url(): string
@@ -127,12 +122,12 @@ function localize_media_path(string $path): string
 
     if (str_starts_with($path, 'http://') || str_starts_with($path, 'https://')) {
         $basename = basename(parse_url($path, PHP_URL_PATH) ?: '');
-        return $basename !== '' ? 'uploads/gallery/' . $basename : $path;
+        return $basename !== '' ? 'assets/gallery/' . $basename : $path;
     }
 
     if (str_contains($path, 'wp-content/uploads/')) {
         $basename = basename($path);
-        return $basename !== '' ? 'uploads/gallery/' . $basename : $path;
+        return $basename !== '' ? 'assets/gallery/' . $basename : $path;
     }
 
     return ltrim($path, '/');

@@ -10,6 +10,9 @@ if (version_compare(PHP_VERSION, '8.0.0', '<')) {
     exit;
 }
 
+require_once __DIR__ . '/includes/requirements.php';
+hog_require_extensions();
+
 register_shutdown_function(static function (): void {
     $error = error_get_last();
     if (!$error || !in_array($error['type'], [E_ERROR, E_PARSE, E_COMPILE_ERROR, E_CORE_ERROR], true)) {
@@ -24,7 +27,7 @@ register_shutdown_function(static function (): void {
     echo '<h1>Setup error</h1>';
     echo '<p><strong>' . htmlspecialchars($error['message']) . '</strong></p>';
     echo '<p>File: ' . htmlspecialchars($error['file'] ?? '') . ' (line ' . (int) ($error['line'] ?? 0) . ')</p>';
-    echo '<p>Common fixes: set PHP 8.1+ in cPanel, re-upload <code>includes/</code>, or fix syntax in <code>includes/config.php</code>.</p>';
+    echo '<p>Common fixes: enable <strong>PDO</strong>, <strong>pdo_mysql</strong>, and <strong>mbstring</strong> in cPanel → Select PHP Version → Extensions.</p>';
     echo '<p>Upload <code>health.php</code> for a full server check, then delete it.</p>';
     echo '</body></html>';
 });

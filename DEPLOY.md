@@ -15,7 +15,7 @@ Upload the full project to your domain root (e.g. `public_html/`):
 
 **PHP dependencies:** After uploading, run `composer install --no-dev` on the server (via cPanel Terminal or SSH), or upload your local `vendor/` folder via FTP/File Manager instead of using Git.
 
-**Required graphics:** `/assets/` (logo, flyers) and gallery photos in `/uploads/gallery/` — see section 4.
+**Required graphics:** `/assets/` (logo, flyers) and gallery photos in `/assets/gallery/` — see section 4.
 
 ## 2. Set folder permissions
 
@@ -28,25 +28,36 @@ storage/          755
 storage/rate-limits/ 755
 ```
 
-## 3. PHP version
+## 3. PHP version & extensions
 
-This site requires **PHP 8.0 or newer** (PHP 8.1+ recommended).
+This site requires **PHP 8.0 or newer** (PHP 8.1+ recommended) with these extensions enabled:
 
-In cPanel → **MultiPHP Manager**, set your domain to PHP 8.1 or 8.2.
+| Extension | Purpose |
+|-----------|---------|
+| **PDO** | Database connection |
+| **pdo_mysql** | MySQL driver |
+| **mbstring** | Form text handling |
 
-If PHP pages return HTTP 500 with a blank page, upload `health.php` and visit it for a diagnostic readout, then delete it.
+In cPanel:
+
+1. **MultiPHP Manager** — set your domain to PHP 8.1 or 8.2
+2. **Select PHP Version** (or **PHP Extensions**) — tick **PDO**, **pdo_mysql**, and **mbstring**, then Save
+
+If you see `Class "PDO" not found`, the PDO extension is not enabled for your domain's PHP version.
+
+Upload `health.php` temporarily to confirm extensions, then delete it.
 
 ## 4. Gallery images (important)
 
-The gallery, hero slider, and several homepage photos use files in **`uploads/gallery/`**, not the old WordPress `/wp-content/` URLs.
+The gallery, hero slider, and several homepage photos use files in **`assets/gallery/`**, not the old WordPress `/wp-content/` URLs.
 
 After uploading the site:
 
-1. **Upload `/assets/`** — contains `logo.png`, bible school flyers, and recruitment image.
+1. **Upload `/assets/`** — contains `logo.png`, bible school flyers, recruitment image, and the `gallery/` folder.
 2. **Restore gallery photos** using one of these options:
-   - **Option A (easiest):** In cPanel File Manager, copy your old `wp-content/uploads/` folder back into the site root (keep the `wp-content/uploads` path), then visit **`/sync-gallery.php` once**. It copies images into `uploads/gallery/`, updates the database, and fixes paths. Delete `sync-gallery.php` afterward.
-   - **Option B:** Upload the image files directly into `uploads/gallery/` (filenames must match those listed in `data/gallery.json`).
-   - **Option C:** Upload photos through **Admin → Gallery** after logging in.
+   - **Option A (easiest):** Visit **`/sync-gallery.php` once** on the live server. It searches your cPanel home folder for old WordPress uploads, copies them into `assets/gallery/`, and fixes database paths. Delete `sync-gallery.php` afterward.
+   - **Option B:** Upload the image files directly into `assets/gallery/` via File Manager (filenames must match `data/gallery.json`).
+   - **Option C:** Upload photos through **Admin → Gallery** after logging in (saved to `uploads/gallery/`).
 
 If the logo or flyers are missing, confirm the entire **`assets/`** folder was uploaded to the domain root.
 

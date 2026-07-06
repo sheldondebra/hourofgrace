@@ -30,10 +30,10 @@ try {
     }
 
     if (!$images) {
-        foreach (default_gallery_images() as $i => $url) {
+        foreach (default_gallery_images() as $i => $path) {
             $images[] = [
                 'id' => $i + 1,
-                'url' => $url,
+                'url' => gallery_public_url($path),
                 'caption' => null,
             ];
         }
@@ -42,8 +42,12 @@ try {
     json_response(['success' => true, 'images' => $images]);
 } catch (Throwable $e) {
     $fallback = [];
-    foreach (default_gallery_images() as $i => $url) {
-        $fallback[] = ['id' => $i + 1, 'url' => $url, 'caption' => null];
+    foreach (default_gallery_images() as $i => $path) {
+        $fallback[] = [
+            'id' => $i + 1,
+            'url' => gallery_public_url($path),
+            'caption' => null,
+        ];
     }
     json_response(['success' => true, 'images' => $fallback, 'source' => 'fallback']);
 }

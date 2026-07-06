@@ -1,5 +1,8 @@
 <?php
 
+require_once __DIR__ . '/requirements.php';
+hog_require_extensions();
+
 require_once __DIR__ . '/functions.php';
 
 function db(): PDO

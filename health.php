@@ -6,8 +6,14 @@ header('Content-Type: text/plain; charset=utf-8');
 
 echo 'Hour of Grace — server check' . PHP_EOL;
 echo 'PHP version: ' . PHP_VERSION . (version_compare(PHP_VERSION, '8.0.0', '>=') ? ' (ok)' : ' (needs 8.0+)') . PHP_EOL;
-echo 'PDO MySQL: ' . (extension_loaded('pdo_mysql') ? 'yes' : 'NO — enable in cPanel') . PHP_EOL;
-echo 'mbstring: ' . (extension_loaded('mbstring') ? 'yes' : 'NO — enable in cPanel') . PHP_EOL;
+echo 'PDO: ' . (extension_loaded('pdo') ? 'yes' : 'NO — enable in cPanel') . PHP_EOL;
+echo 'PDO MySQL: ' . (extension_loaded('pdo_mysql') ? 'yes' : 'NO — enable pdo_mysql in cPanel') . PHP_EOL;
+echo 'mbstring: ' . (extension_loaded('mbstring') ? 'yes' : 'no (optional — fallback in use)') . PHP_EOL;
+
+if (!extension_loaded('pdo') || !extension_loaded('pdo_mysql')) {
+    echo PHP_EOL . 'Fix: cPanel → Select PHP Version → Extensions → enable PDO and pdo_mysql' . PHP_EOL;
+    exit;
+}
 
 $configPath = __DIR__ . '/includes/config.php';
 echo 'config.php: ' . (is_file($configPath) ? 'found' : 'missing (installer will create it)') . PHP_EOL;
