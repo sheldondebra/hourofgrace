@@ -234,6 +234,15 @@ function write_app_config(array $config): void
     }
 }
 
+function friendly_db_error(string $message): string
+{
+    if (stripos($message, 'using password: NO') !== false) {
+        return 'No database password was saved. Enter the password from cPanel → MySQL Databases, then click Save & test connection.';
+    }
+
+    return $message;
+}
+
 function test_database_connection(array $config): array
 {
     try {

@@ -80,10 +80,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         if (!$config['db_name'] || !$config['db_user']) {
             $error = 'Database name and username are required.';
+        } elseif (trim($config['db_pass']) === '' && (!is_file(config_path()) || trim($existing['db_pass'] ?? '') === '')) {
+            $error = 'Database password is required. Copy it from cPanel → MySQL Databases → Current Users (click the user name to reveal the password).';
         } else {
             $dbTest = test_database_connection($config);
             if (!$dbTest['ok']) {
-                $error = 'Database connection failed: ' . $dbTest['message'];
+                $error = 'Database connection failed: ' . friendly_db_error($dbTest['message']);
             } else {
                 try {
                     write_app_config($config);
@@ -154,8 +156,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 }
 
 $config = load_config_array();
-$dbTest = test_database_connection($config);
 $configExists = is_file(config_path());
+$awaitingDbPassword = !$configExists && trim($config['db_pass']) === '';
+$dbTest = $awaitingDbPassword
+    ? ['ok' => false, 'message' => 'Enter your database password below, then click Save & test connection.']
+    : test_database_connection($config);
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -185,17 +190,26 @@ $configExists = is_file(config_path());
         <a href="admin/login.php" class="block w-full text-center py-3 rounded-xl bg-brand-purple text-white font-medium">Go to Admin Login</a>
       <?php else: ?>
 
-      <div class="mb-6 p-4 rounded-xl border <?= $dbTest['ok'] ? 'border-emerald-200 bg-emerald-50' : 'border-red-200 bg-red-50' ?>">
-        <p class="text-sm font-medium <?= $dbTest['ok'] ? 'text-emerald-800' : 'text-red-800' ?>">
-          Database status: <?= $dbTest['ok'] ? 'Connected' : 'Not connected' ?>
+      <?php
+        $statusClass = $dbTest['ok']
+            ? 'border-emerald-200 bg-emerald-50'
+            : ($awaitingDbPassword ? 'border-amber-200 bg-amber-50' : 'border-red-200 bg-red-50');
+        $statusTextClass = $dbTest['ok']
+            ? 'text-emerald-800'
+            : ($awaitingDbPassword ? 'text-amber-900' : 'text-red-800');
+        $statusDetailClass = $awaitingDbPassword ? 'text-amber-800' : 'text-red-700';
+      ?>
+      <div class="mb-6 p-4 rounded-xl border <?= $statusClass ?>">
+        <p class="text-sm font-medium <?= $statusTextClass ?>">
+          Database status: <?= $dbTest['ok'] ? 'Connected' : ($awaitingDbPassword ? 'Awaiting password' : 'Not connected') ?>
         </p>
         <?php if (!$dbTest['ok']): ?>
-          <p class="text-xs mt-1 text-red-700"><?= sanitize($dbTest['message']) ?></p>
+          <p class="text-xs mt-1 <?= $statusDetailClass ?>"><?= sanitize(friendly_db_error($dbTest['message'])) ?></p>
         <?php endif; ?>
         <?php if ($configExists): ?>
           <p class="text-xs mt-2 text-slate-600">Config file found at <code>includes/config.php</code></p>
         <?php else: ?>
-          <p class="text-xs mt-2 text-slate-600">No config file yet. Save the form below to create one.</p>
+          <p class="text-xs mt-2 text-slate-600">No config file yet. Fill in the database password and click <strong>Save &amp; test connection</strong>.</p>
         <?php endif; ?>
       </div>
 
@@ -220,8 +234,11 @@ $configExists = is_file(config_path());
             <input type="text" name="db_user" value="<?= sanitize($config['db_user']) ?>" required class="w-full px-4 py-2.5 rounded-xl border border-slate-200" placeholder="hourofgr_churchdb" />
           </div>
           <div>
-            <label class="block text-sm font-medium text-slate-700 mb-1">Database Password</label>
-            <input type="password" name="db_pass" class="w-full px-4 py-2.5 rounded-xl border border-slate-200" placeholder="<?= $config['db_pass'] ? 'Saved — leave blank to keep' : 'Enter password' ?>" autocomplete="new-password" />
+            <label class="block text-sm font-medium text-slate-700 mb-1">Database Password<?= $configExists ? '' : ' <span class="text-red-600">*</span>' ?></label>
+            <input type="password" name="db_pass" class="w-full px-4 py-2.5 rounded-xl border border-slate-200" placeholder="<?= $config['db_pass'] ? 'Saved — leave blank to keep' : 'Required — from cPanel MySQL' ?>" autocomplete="new-password" <?= $configExists ? '' : 'required' ?> />
+            <?php if (!$configExists): ?>
+              <p class="text-xs text-slate-500 mt-1">From cPanel → MySQL Databases → Current Users. Passwords with <code>$</code> or <code>;</code> are fine here.</p>
+            <?php endif; ?>
           </div>
         </div>
 
