@@ -5,5 +5,5 @@ uploads/documents/*
 !uploads/documents/.gitkeep
 uploads/gallery/*
 !uploads/gallery/.gitkeep
-vendor/
 .DS_Store
+vendor/

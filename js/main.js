@@ -476,12 +476,11 @@ function renderPrograms(containerId) {
 
   container.innerHTML = PROGRAMS.map(
     ({ day, title, time }) => `
-    <div class="flex gap-5 p-6 rounded-2xl bg-white border border-slate-100 hover:border-brand-sky/40 hover:shadow-sm transition-all duration-300">
-      <div class="shrink-0 w-1 rounded-full bg-brand-sky"></div>
+    <div class="programs-item">
+      <p class="programs-day">${day}</p>
       <div>
-        <p class="text-xs uppercase tracking-wider text-brand-purple font-medium mb-1">${day}</p>
-        <h3 class="font-serif text-lg text-slate-900 mb-1">${title}</h3>
-        <p class="text-slate-500 text-sm">${time}</p>
+        <h3 class="programs-title">${title}</h3>
+        <p class="programs-time">${time}</p>
       </div>
     </div>
   `

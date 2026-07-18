@@ -43,10 +43,11 @@
   <div id="site-header"></div>
 
   <main class="pt-[72px]">
-    <section class="py-16 lg:py-20 bg-white border-b border-slate-100">
-      <div class="max-w-6xl mx-auto px-5 lg:px-8">
-        <p class="section-label text-brand-purple text-xs uppercase font-medium mb-4">About Us</p>
-        <h1 class="font-serif text-4xl md:text-5xl text-slate-900 max-w-2xl leading-tight">A ministry called to proclaim the good news</h1>
+    <section class="about-hero py-16 lg:py-24">
+      <div class="about-hero-overlay" aria-hidden="true"></div>
+      <div class="max-w-6xl mx-auto px-5 lg:px-8 relative">
+        <p class="section-label text-xs uppercase font-medium mb-4">About Us</p>
+        <h1 class="font-serif text-4xl md:text-5xl max-w-2xl leading-tight">A ministry called to proclaim the good news</h1>
       </div>
     </section>
 
@@ -104,13 +105,13 @@
       </div>
     </section>
 
-    <section class="py-16 lg:py-24">
+    <section class="programs-section py-16 lg:py-24">
       <div class="max-w-6xl mx-auto px-5 lg:px-8">
-        <div class="text-center max-w-xl mx-auto mb-14">
-          <p class="section-label text-brand-purple text-xs uppercase font-medium mb-4">Weekly Schedule</p>
-          <h2 class="font-serif text-3xl md:text-4xl text-slate-900">Programs & Activities</h2>
+        <div class="programs-header mb-10 lg:mb-12">
+          <p class="section-label text-xs uppercase font-medium mb-3">Weekly Schedule</p>
+          <h2 class="font-serif text-3xl md:text-4xl">Programs & Activities</h2>
         </div>
-        <div id="programs-grid" class="grid sm:grid-cols-2 lg:grid-cols-3 gap-5"></div>
+        <div id="programs-grid" class="programs-list"></div>
       </div>
     </section>
 

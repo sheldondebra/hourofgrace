@@ -1,11 +1,20 @@
 <?php
 
-require_once __DIR__ . '/../vendor/autoload.php';
+$hogAutoload = __DIR__ . '/../vendor/autoload.php';
+if (is_file($hogAutoload)) {
+    require_once $hogAutoload;
+}
+unset($hogAutoload);
 
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 
 const HOG_ADMIN_EMAIL = 'info@hourofgraceministries.org';
+
+function mailer_available(): bool
+{
+    return class_exists(PHPMailer::class);
+}
 
 function email_settings(): array
 {
@@ -214,6 +223,11 @@ function send_site_email(string $to, string $subject, string $htmlBody, ?string 
 {
     $settings = email_settings();
 
+    if (!mailer_available()) {
+        log_email($to, $subject, false, 'Mail library (vendor/) not installed on server');
+        return false;
+    }
+
     if (empty($settings['smtp_host']) || empty($settings['smtp_user'])) {
         log_email($to, $subject, false, 'SMTP not configured');
         return false;
@@ -271,6 +285,10 @@ function configure_phpmailer(PHPMailer $mail, array $settings): void
 function test_smtp_connection(): array
 {
     $settings = email_settings();
+
+    if (!mailer_available()) {
+        return ['ok' => false, 'message' => 'Mail library is not installed. Upload the vendor/ folder or run "composer install" on the server.'];
+    }
 
     if (empty($settings['smtp_host']) || empty($settings['smtp_user'])) {
         return ['ok' => false, 'message' => 'SMTP host and username are required. Save settings first.'];

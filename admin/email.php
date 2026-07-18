@@ -77,6 +77,46 @@ require __DIR__ . '/includes/header.php';
 <?php if ($message): ?><div class="alert alert-success"><?= sanitize($message) ?></div><?php endif; ?>
 <?php if ($error): ?><div class="alert alert-error"><?= sanitize($error) ?></div><?php endif; ?>
 
+<?php
+$mailReady = mailer_available();
+$smtpConfigured = !empty($settings['smtp_host']) && !empty($settings['smtp_user']) && !empty($settings['smtp_pass']);
+?>
+
+<?php if (!$mailReady): ?>
+  <div class="alert alert-warning">
+    <strong>Mail library not installed.</strong> The <code>/vendor</code> folder (PHPMailer) is missing on the server,
+    so emails cannot be sent yet. Upload the <code>/vendor</code> folder via cPanel File Manager, or run
+    <code>composer install --no-dev</code>, then reload this page.
+  </div>
+<?php endif; ?>
+
+<section class="panel">
+  <div class="panel-head"><h2>Connection Status</h2></div>
+  <div class="status-grid">
+    <div class="status-item <?= $mailReady ? 'ok' : 'bad' ?>">
+      <span class="s-badge"><?= $mailReady ? '✓' : '!' ?></span>
+      <div>
+        <strong>Mail Library</strong>
+        <span><?= $mailReady ? 'PHPMailer is installed' : 'Not installed (/vendor missing)' ?></span>
+      </div>
+    </div>
+    <div class="status-item <?= $smtpConfigured ? 'ok' : 'bad' ?>">
+      <span class="s-badge"><?= $smtpConfigured ? '✓' : '!' ?></span>
+      <div>
+        <strong>SMTP Credentials</strong>
+        <span><?= $smtpConfigured ? sanitize($settings['smtp_host'] . ':' . $settings['smtp_port']) : 'Host, user or password not saved' ?></span>
+      </div>
+    </div>
+    <div class="status-item <?= ($mailReady && $smtpConfigured) ? 'ok' : 'bad' ?>">
+      <span class="s-badge"><?= ($mailReady && $smtpConfigured) ? '✓' : '!' ?></span>
+      <div>
+        <strong>Ready to Send</strong>
+        <span><?= ($mailReady && $smtpConfigured) ? 'Use "Test SMTP connection" to verify' : 'Resolve the items above first' ?></span>
+      </div>
+    </div>
+  </div>
+</section>
+
 <div class="panel-grid">
   <section class="panel">
     <div class="panel-head"><h2>SMTP Configuration</h2></div>
