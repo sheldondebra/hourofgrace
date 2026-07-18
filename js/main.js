@@ -6,7 +6,17 @@ const SITE = {
   address: '403a York Road, Leeds, LS9 6TD',
   mapsUrl: 'https://www.google.com/maps/search/?api=1&query=403a+York+Road,+Leeds,+LS9+6TD',
   url: 'https://hourofgraceministries.org',
+  facebook: 'https://www.facebook.com/people/Hour-Of-Grace-Family-Chapel-International/61557072391077/',
 };
+
+const SOCIAL_LINKS = [
+  {
+    name: 'Facebook',
+    href: 'https://www.facebook.com/people/Hour-Of-Grace-Family-Chapel-International/61557072391077/',
+    label: 'Hour Of Grace Family Chapel International on Facebook',
+    icon: 'facebook',
+  },
+];
 
 const NAV_LINKS = [
   { href: '/', label: 'Home', slug: 'home' },
@@ -42,6 +52,34 @@ function currentPage() {
   }
   const segment = path.split('/').filter(Boolean).pop() || 'home';
   return segment.replace(/\.html$/, '');
+}
+
+function socialIcon(name) {
+  if (name === 'facebook') {
+    return '<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>';
+  }
+
+  return '';
+}
+
+function renderSocialLinks() {
+  if (!SOCIAL_LINKS.length) return '';
+
+  return `
+    <div class="footer-social">
+      <p class="footer-social-label">Follow us</p>
+      <ul class="footer-social-list">
+        ${SOCIAL_LINKS.map(({ name, href, label, icon }) => `
+          <li>
+            <a href="${href}" target="_blank" rel="noopener noreferrer" class="footer-social-link" aria-label="${label}">
+              <span class="footer-social-icon">${socialIcon(icon)}</span>
+              ${name}
+            </a>
+          </li>
+        `).join('')}
+      </ul>
+    </div>
+  `;
 }
 
 function renderHeader() {
@@ -96,6 +134,7 @@ function renderFooter() {
             <p class="mt-3 leading-relaxed">
               <a href="${SITE.mapsUrl}" target="_blank" rel="noopener noreferrer" class="hover:text-white transition-colors">${SITE.address}</a>
             </p>
+            ${renderSocialLinks()}
           </div>
 
           <div>
