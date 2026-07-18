@@ -250,7 +250,7 @@ $configExists = is_file(config_path());
         <div class="grid sm:grid-cols-2 gap-4">
           <div>
             <label class="block text-sm font-medium text-slate-700 mb-1">SMTP Username</label>
-            <input type="text" name="smtp_user" value="<?= sanitize($config['smtp']['user'] ?? '') ?>" required class="w-full px-4 py-2.5 rounded-xl border border-slate-200" placeholder="smpt@hourofgraceministries.org" />
+            <input type="text" name="smtp_user" value="<?= sanitize($config['smtp']['user'] ?? '') ?>" required class="w-full px-4 py-2.5 rounded-xl border border-slate-200" placeholder="smtp@hourofgraceministries.org" />
           </div>
           <div>
             <label class="block text-sm font-medium text-slate-700 mb-1">SMTP Password</label>

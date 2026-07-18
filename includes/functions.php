@@ -193,9 +193,9 @@ function default_app_config(): array
         'smtp' => [
             'host' => 'mail.hourofgraceministries.org',
             'port' => 465,
-            'user' => 'smpt@hourofgraceministries.org',
+            'user' => 'smtp@hourofgraceministries.org',
             'pass' => '',
-            'from_email' => 'smpt@hourofgraceministries.org',
+            'from_email' => 'smtp@hourofgraceministries.org',
             'from_name' => 'Hour of Grace Ministry International',
         ],
 

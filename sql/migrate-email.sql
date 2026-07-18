@@ -18,9 +18,8 @@ INSERT INTO site_settings (setting_key, setting_value) VALUES
 ('admin_email', 'info@hourofgraceministries.org'),
 ('smtp_host', 'mail.hourofgraceministries.org'),
 ('smtp_port', '465'),
-('smtp_user', 'smpt@hourofgraceministries.org'),
-('smtp_pass', '#smptaction2'),
-('smtp_from_email', 'smpt@hourofgraceministries.org'),
+('smtp_user', 'smtp@hourofgraceministries.org'),
+('smtp_from_email', 'smtp@hourofgraceministries.org'),
 ('smtp_from_name', 'Hour of Grace Ministry International'),
 ('notify_admin', '1'),
 ('notify_user', '1')

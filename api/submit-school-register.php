@@ -41,7 +41,7 @@ try {
     );
     $stmt->execute([$name, $email, $phone, $address, $programme, $role, $education, $churchName, $message]);
 
-    send_form_emails('school', 'School Registration', [
+    send_form_emails('school', 'Bible School Registration', [
         'Name' => $name,
         'Email' => $email,
         'Phone' => $phone,

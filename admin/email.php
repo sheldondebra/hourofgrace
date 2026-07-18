@@ -102,7 +102,7 @@ require __DIR__ . '/includes/header.php';
 
       <label>
         <span>SMTP Username</span>
-        <input type="text" name="smtp_user" value="<?= sanitize($settings['smtp_user']) ?>" required placeholder="smpt@hourofgraceministries.org" />
+        <input type="text" name="smtp_user" value="<?= sanitize($settings['smtp_user']) ?>" required placeholder="smtp@hourofgraceministries.org" />
       </label>
 
       <label>
@@ -113,7 +113,7 @@ require __DIR__ . '/includes/header.php';
       <div class="form-grid-2">
         <label>
           <span>From Email</span>
-          <input type="email" name="smtp_from_email" value="<?= sanitize($settings['smtp_from_email']) ?>" required placeholder="smpt@hourofgraceministries.org" />
+          <input type="email" name="smtp_from_email" value="<?= sanitize($settings['smtp_from_email']) ?>" required placeholder="smtp@hourofgraceministries.org" />
         </label>
         <label>
           <span>From Name</span>
