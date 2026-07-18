@@ -77,70 +77,79 @@ require __DIR__ . '/includes/header.php';
 <?php else: ?>
 
 <div class="dash-hero">
-  <div>
-    <h2>Welcome back, <?= sanitize($adminUsername) ?> 👋</h2>
+  <div class="dash-hero-copy">
+    <h2>Welcome back, <?= sanitize($adminUsername) ?></h2>
     <p>
       <?= date('l, j F Y') ?> ·
       <?php if ($totalUnread): ?>
-        <?= $totalUnread ?> new submission<?= $totalUnread === 1 ? '' : 's' ?> waiting for you.
+        <?= $totalUnread ?> new submission<?= $totalUnread === 1 ? '' : 's' ?> waiting.
       <?php else: ?>
         You're all caught up — no unread submissions.
       <?php endif; ?>
     </p>
   </div>
   <div class="dash-hero-actions">
-    <a href="submissions.php?filter=all" class="btn btn-ghost">View Submissions</a>
-    <a href="/" target="_blank" rel="noopener" class="btn btn-ghost">Visit Website</a>
+    <a href="submissions.php?filter=all" class="btn btn-ghost">Submissions</a>
+    <a href="/" target="_blank" rel="noopener" class="btn btn-ghost">Website</a>
   </div>
 </div>
 
-<div class="stat-grid">
-  <a href="submissions.php?filter=contact" class="stat-card accent-blue">
-    <span class="stat-ico"><?= admin_icon('email') ?></span>
-    <span class="stat-label">Contact Messages</span>
-    <strong class="stat-value"><?= $stats['contact'] ?></strong>
-    <?php if ($unreadContact): ?><em><?= $unreadContact ?> unread</em><?php endif; ?>
-  </a>
-  <a href="submissions.php?filter=prayer" class="stat-card accent-purple">
-    <span class="stat-ico"><?= admin_icon('giving') ?></span>
-    <span class="stat-label">Prayer Requests</span>
-    <strong class="stat-value"><?= $stats['prayer'] ?></strong>
-    <?php if ($unreadPrayer): ?><em><?= $unreadPrayer ?> unread</em><?php endif; ?>
-  </a>
-  <a href="submissions.php?filter=register" class="stat-card accent-green">
-    <span class="stat-ico"><?= admin_icon('profile') ?></span>
-    <span class="stat-label">Ministry Registrations</span>
-    <strong class="stat-value"><?= $stats['register'] ?></strong>
-    <?php if ($unreadRegister): ?><em><?= $unreadRegister ?> unread</em><?php endif; ?>
-  </a>
-  <a href="submissions.php?filter=school" class="stat-card accent-amber">
-    <span class="stat-ico"><?= admin_icon('submissions') ?></span>
-    <span class="stat-label">School Registrations</span>
-    <strong class="stat-value"><?= $stats['school'] ?></strong>
-    <?php if ($unreadSchool): ?><em><?= $unreadSchool ?> unread</em><?php endif; ?>
-  </a>
-  <a href="gallery.php" class="stat-card accent-sky">
-    <span class="stat-ico"><?= admin_icon('gallery') ?></span>
-    <span class="stat-label">Gallery Photos</span>
-    <strong class="stat-value"><?= $stats['gallery'] ?></strong>
-  </a>
-  <a href="hero.php" class="stat-card accent-purple">
-    <span class="stat-ico"><?= admin_icon('hero') ?></span>
-    <span class="stat-label">Hero Slides</span>
-    <strong class="stat-value"><?= $stats['hero'] ?></strong>
-  </a>
-  <a href="subscribers.php" class="stat-card accent-blue">
-    <span class="stat-ico"><?= admin_icon('subscribers') ?></span>
-    <span class="stat-label">Mailing List</span>
-    <strong class="stat-value"><?= $stats['subscribers'] ?></strong>
-  </a>
-  <a href="giving.php" class="stat-card accent-rose">
-    <span class="stat-ico"><?= admin_icon('giving') ?></span>
-    <span class="stat-label">Online Gifts</span>
-    <strong class="stat-value"><?= $stats['giving'] ?></strong>
-    <?php if ($stats['giving_total'] > 0): ?><em>£<?= number_format($stats['giving_total'], 2) ?> total</em><?php endif; ?>
-  </a>
-</div>
+<section class="dash-section">
+  <h2 class="dash-section-title">Inbox</h2>
+  <div class="stat-grid stat-grid--inbox">
+    <a href="submissions.php?filter=contact" class="stat-card accent-blue">
+      <span class="stat-ico"><?= admin_icon('email') ?></span>
+      <span class="stat-label">Contact Messages</span>
+      <strong class="stat-value"><?= $stats['contact'] ?></strong>
+      <?php if ($unreadContact): ?><em><?= $unreadContact ?> unread</em><?php endif; ?>
+    </a>
+    <a href="submissions.php?filter=prayer" class="stat-card accent-purple">
+      <span class="stat-ico"><?= admin_icon('prayer') ?></span>
+      <span class="stat-label">Prayer Requests</span>
+      <strong class="stat-value"><?= $stats['prayer'] ?></strong>
+      <?php if ($unreadPrayer): ?><em><?= $unreadPrayer ?> unread</em><?php endif; ?>
+    </a>
+    <a href="submissions.php?filter=register" class="stat-card accent-green">
+      <span class="stat-ico"><?= admin_icon('profile') ?></span>
+      <span class="stat-label">Ministry Registrations</span>
+      <strong class="stat-value"><?= $stats['register'] ?></strong>
+      <?php if ($unreadRegister): ?><em><?= $unreadRegister ?> unread</em><?php endif; ?>
+    </a>
+    <a href="submissions.php?filter=school" class="stat-card accent-amber">
+      <span class="stat-ico"><?= admin_icon('submissions') ?></span>
+      <span class="stat-label">School Registrations</span>
+      <strong class="stat-value"><?= $stats['school'] ?></strong>
+      <?php if ($unreadSchool): ?><em><?= $unreadSchool ?> unread</em><?php endif; ?>
+    </a>
+  </div>
+</section>
+
+<section class="dash-section">
+  <h2 class="dash-section-title">Website</h2>
+  <div class="stat-grid stat-grid--site">
+    <a href="gallery.php" class="stat-card accent-sky">
+      <span class="stat-ico"><?= admin_icon('gallery') ?></span>
+      <span class="stat-label">Gallery Photos</span>
+      <strong class="stat-value"><?= $stats['gallery'] ?></strong>
+    </a>
+    <a href="hero.php" class="stat-card accent-purple">
+      <span class="stat-ico"><?= admin_icon('hero') ?></span>
+      <span class="stat-label">Hero Slides</span>
+      <strong class="stat-value"><?= $stats['hero'] ?></strong>
+    </a>
+    <a href="subscribers.php" class="stat-card accent-blue">
+      <span class="stat-ico"><?= admin_icon('subscribers') ?></span>
+      <span class="stat-label">Mailing List</span>
+      <strong class="stat-value"><?= $stats['subscribers'] ?></strong>
+    </a>
+    <a href="giving.php" class="stat-card accent-rose">
+      <span class="stat-ico"><?= admin_icon('giving') ?></span>
+      <span class="stat-label">Online Gifts</span>
+      <strong class="stat-value"><?= $stats['giving'] ?></strong>
+      <?php if ($stats['giving_total'] > 0): ?><em>£<?= number_format($stats['giving_total'], 2) ?> total</em><?php endif; ?>
+    </a>
+  </div>
+</section>
 
 <section class="panel">
   <div class="panel-head"><h2>System Status</h2></div>
@@ -190,33 +199,21 @@ require __DIR__ . '/includes/header.php';
   <?php if (!$recent): ?>
     <p class="empty-state">No submissions yet. They will appear here when visitors submit forms.</p>
   <?php else: ?>
-    <div class="table-wrap">
-      <table class="data-table">
-        <thead>
-          <tr>
-            <th>Type</th>
-            <th>Name</th>
-            <th>Email</th>
-            <th>Summary</th>
-            <th>Status</th>
-            <th>Date</th>
-            <th></th>
-          </tr>
-        </thead>
-        <tbody>
-          <?php foreach ($recent as $row): ?>
-            <tr class="<?= $row['is_read'] ? '' : 'row-unread' ?>">
-              <td><span class="type-pill type-<?= sanitize($row['type']) ?>"><?= ucfirst($row['type']) ?></span></td>
-              <td><?= sanitize($row['name']) ?></td>
-              <td><?= sanitize($row['email']) ?></td>
-              <td class="cell-truncate"><?= sanitize($row['detail'] ?? '') ?></td>
-              <td><?= $row['is_read'] ? 'Read' : 'New' ?></td>
-              <td><?= format_datetime($row['created_at']) ?></td>
-              <td><a href="submissions.php?filter=all&type=<?= urlencode($row['type']) ?>&id=<?= (int) $row['id'] ?>">Open</a></td>
-            </tr>
-          <?php endforeach; ?>
-        </tbody>
-      </table>
+    <div class="recent-feed">
+      <?php foreach ($recent as $row): ?>
+        <a
+          href="submissions.php?filter=all&type=<?= urlencode($row['type']) ?>&id=<?= (int) $row['id'] ?>"
+          class="recent-feed-item<?= $row['is_read'] ? '' : ' is-unread' ?>"
+        >
+          <div class="recent-feed-top">
+            <span class="type-pill type-<?= sanitize($row['type']) ?>"><?= ucfirst($row['type']) ?></span>
+            <time datetime="<?= sanitize($row['created_at']) ?>"><?= format_datetime($row['created_at']) ?></time>
+          </div>
+          <strong><?= sanitize($row['name']) ?></strong>
+          <p><?= sanitize($row['detail'] ?? '') ?></p>
+          <span class="recent-feed-meta"><?= sanitize($row['email']) ?> · <?= $row['is_read'] ? 'Read' : 'New' ?></span>
+        </a>
+      <?php endforeach; ?>
     </div>
   <?php endif; ?>
 </section>

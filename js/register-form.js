@@ -353,6 +353,146 @@ async function submitRegisterForm() {
   }
 }
 
+const COUNTRY_LIST = [
+  'Afghanistan', 'Albania', 'Algeria', 'Andorra', 'Angola', 'Antigua and Barbuda', 'Argentina', 'Armenia',
+  'Australia', 'Austria', 'Azerbaijan', 'Bahamas', 'Bahrain', 'Bangladesh', 'Barbados', 'Belarus', 'Belgium',
+  'Belize', 'Benin', 'Bhutan', 'Bolivia', 'Bosnia and Herzegovina', 'Botswana', 'Brazil', 'Brunei', 'Bulgaria',
+  'Burkina Faso', 'Burundi', 'Cabo Verde', 'Cambodia', 'Cameroon', 'Canada', 'Central African Republic', 'Chad',
+  'Chile', 'China', 'Colombia', 'Comoros', 'Congo (Brazzaville)', 'Congo (Kinshasa)', 'Costa Rica', 'Croatia',
+  'Cuba', 'Cyprus', 'Czechia', 'Denmark', 'Djibouti', 'Dominica', 'Dominican Republic', 'Ecuador', 'Egypt',
+  'El Salvador', 'Equatorial Guinea', 'Eritrea', 'Estonia', 'Eswatini', 'Ethiopia', 'Fiji', 'Finland', 'France',
+  'Gabon', 'Gambia', 'Georgia', 'Germany', 'Ghana', 'Greece', 'Grenada', 'Guatemala', 'Guinea', 'Guinea-Bissau',
+  'Guyana', 'Haiti', 'Honduras', 'Hungary', 'Iceland', 'India', 'Indonesia', 'Iran', 'Iraq', 'Ireland', 'Israel',
+  'Italy', 'Ivory Coast', 'Jamaica', 'Japan', 'Jordan', 'Kazakhstan', 'Kenya', 'Kiribati', 'Kosovo', 'Kuwait',
+  'Kyrgyzstan', 'Laos', 'Latvia', 'Lebanon', 'Lesotho', 'Liberia', 'Libya', 'Liechtenstein', 'Lithuania',
+  'Luxembourg', 'Madagascar', 'Malawi', 'Malaysia', 'Maldives', 'Mali', 'Malta', 'Marshall Islands', 'Mauritania',
+  'Mauritius', 'Mexico', 'Micronesia', 'Moldova', 'Monaco', 'Mongolia', 'Montenegro', 'Morocco', 'Mozambique',
+  'Myanmar', 'Namibia', 'Nauru', 'Nepal', 'Netherlands', 'New Zealand', 'Nicaragua', 'Niger', 'Nigeria',
+  'North Korea', 'North Macedonia', 'Norway', 'Oman', 'Pakistan', 'Palau', 'Palestine', 'Panama',
+  'Papua New Guinea', 'Paraguay', 'Peru', 'Philippines', 'Poland', 'Portugal', 'Qatar', 'Romania', 'Russia',
+  'Rwanda', 'Saint Kitts and Nevis', 'Saint Lucia', 'Saint Vincent and the Grenadines', 'Samoa', 'San Marino',
+  'Sao Tome and Principe', 'Saudi Arabia', 'Senegal', 'Serbia', 'Seychelles', 'Sierra Leone', 'Singapore',
+  'Slovakia', 'Slovenia', 'Solomon Islands', 'Somalia', 'South Africa', 'South Korea', 'South Sudan', 'Spain',
+  'Sri Lanka', 'Sudan', 'Suriname', 'Sweden', 'Switzerland', 'Syria', 'Taiwan', 'Tajikistan', 'Tanzania',
+  'Thailand', 'Timor-Leste', 'Togo', 'Tonga', 'Trinidad and Tobago', 'Tunisia', 'Turkey', 'Turkmenistan',
+  'Tuvalu', 'Uganda', 'Ukraine', 'United Arab Emirates', 'United Kingdom', 'United States', 'Uruguay',
+  'Uzbekistan', 'Vanuatu', 'Vatican City', 'Venezuela', 'Vietnam', 'Yemen', 'Zambia', 'Zimbabwe',
+];
+
+const EDUCATION_LIST = [
+  'No formal education', 'Primary school', 'Secondary school / High school', 'Vocational / Technical certificate',
+  'Diploma', 'Associate degree', "Bachelor's degree", "Master's degree", 'Doctorate (PhD)', 'Other',
+];
+
+const RELIGION_LIST = [
+  'Christianity', 'Islam', 'Judaism', 'Hinduism', 'Buddhism', 'Sikhism', 'Baháʼí Faith',
+  'Traditional / Indigenous', 'Other', 'None',
+];
+
+const COMBOBOX_SOURCES = {
+  country: COUNTRY_LIST,
+  education: EDUCATION_LIST,
+  religion: RELIGION_LIST,
+};
+
+function initCountryCombobox(wrapper) {
+  const input = wrapper.querySelector('input');
+  const list = wrapper.querySelector('.country-combobox-list');
+  if (!input || !list) return;
+
+  const source = COMBOBOX_SOURCES[wrapper.dataset.comboboxSource] || COUNTRY_LIST;
+
+  let activeIndex = -1;
+  let matches = [];
+
+  function closeList() {
+    list.hidden = true;
+    wrapper.classList.remove('is-open');
+    input.setAttribute('aria-expanded', 'false');
+    activeIndex = -1;
+  }
+
+  function renderList(query) {
+    const q = query.trim().toLowerCase();
+    matches = q
+      ? source.filter((c) => c.toLowerCase().includes(q))
+      : source.slice();
+
+    if (!matches.length) {
+      list.innerHTML = '<li class="country-combobox-empty">No matches found</li>';
+    } else {
+      list.innerHTML = matches
+        .map(
+          (c, i) =>
+            `<li class="country-combobox-option" role="option" data-index="${i}" id="${input.id}-opt-${i}">${c}</li>`
+        )
+        .join('');
+    }
+
+    activeIndex = -1;
+    list.hidden = false;
+    wrapper.classList.add('is-open');
+    input.setAttribute('aria-expanded', 'true');
+    list.scrollTop = 0;
+  }
+
+  function selectValue(value) {
+    input.value = value;
+    input.classList.remove('is-invalid');
+    closeList();
+    input.dispatchEvent(new Event('change', { bubbles: true }));
+  }
+
+  function highlight(index) {
+    const options = list.querySelectorAll('.country-combobox-option');
+    options.forEach((el) => el.classList.remove('is-active'));
+    if (index < 0 || index >= options.length) return;
+    const el = options[index];
+    el.classList.add('is-active');
+    el.scrollIntoView({ block: 'nearest' });
+    input.setAttribute('aria-activedescendant', el.id);
+  }
+
+  input.addEventListener('focus', () => renderList(input.value));
+  input.addEventListener('input', () => renderList(input.value));
+
+  input.addEventListener('keydown', (e) => {
+    if (list.hidden && (e.key === 'ArrowDown' || e.key === 'ArrowUp')) {
+      renderList(input.value);
+      return;
+    }
+    if (e.key === 'ArrowDown') {
+      e.preventDefault();
+      if (matches.length) highlight((activeIndex = Math.min(activeIndex + 1, matches.length - 1)));
+    } else if (e.key === 'ArrowUp') {
+      e.preventDefault();
+      if (matches.length) highlight((activeIndex = Math.max(activeIndex - 1, 0)));
+    } else if (e.key === 'Enter') {
+      if (!list.hidden && activeIndex >= 0 && matches[activeIndex]) {
+        e.preventDefault();
+        selectValue(matches[activeIndex]);
+      }
+    } else if (e.key === 'Escape') {
+      closeList();
+    }
+  });
+
+  list.addEventListener('mousedown', (e) => {
+    const option = e.target.closest('.country-combobox-option');
+    if (!option) return;
+    e.preventDefault();
+    selectValue(matches[Number(option.dataset.index)]);
+  });
+
+  document.addEventListener('click', (e) => {
+    if (!wrapper.contains(e.target)) closeList();
+  });
+}
+
+function initCountrySelects() {
+  document.querySelectorAll('[data-country-combobox]').forEach(initCountryCombobox);
+}
+
 function initRegisterWizard() {
   const form = document.getElementById('register-wizard-form');
   if (!form) return;
@@ -366,6 +506,7 @@ function initRegisterWizard() {
   renderRegisterSteps();
   showRegisterStep(1);
   renderFilePreviews(docPreviews);
+  initCountrySelects();
 
   backBtn?.addEventListener('click', () => {
     if (registerStep > 1) showRegisterStep(registerStep - 1);

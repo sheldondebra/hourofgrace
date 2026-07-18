@@ -408,6 +408,76 @@ body {
   box-shadow: 0 0 0 3px rgba(220, 38, 38, 0.12);
 }
 
+.country-combobox {
+  position: relative;
+}
+
+.country-combobox .form-input {
+  padding-right: 2.5rem;
+  cursor: text;
+}
+
+.country-combobox::after {
+  content: "";
+  position: absolute;
+  top: 1.1rem;
+  right: 1rem;
+  width: 0.5rem;
+  height: 0.5rem;
+  border-right: 2px solid #94a3b8;
+  border-bottom: 2px solid #94a3b8;
+  transform: rotate(45deg);
+  pointer-events: none;
+  transition: transform 0.2s;
+}
+
+.country-combobox.is-open::after {
+  transform: rotate(-135deg);
+  top: 1.35rem;
+}
+
+.country-combobox-list {
+  position: absolute;
+  top: calc(100% + 0.35rem);
+  left: 0;
+  right: 0;
+  z-index: 40;
+  max-height: 15rem;
+  overflow-y: auto;
+  margin: 0;
+  padding: 0.35rem;
+  list-style: none;
+  background: #fff;
+  border: 1px solid #e2e8f0;
+  border-radius: 0.75rem;
+  box-shadow: 0 16px 40px -16px rgba(63, 61, 139, 0.28);
+}
+
+.country-combobox-list[hidden] {
+  display: none;
+}
+
+.country-combobox-option {
+  padding: 0.5rem 0.75rem;
+  border-radius: 0.5rem;
+  font-size: 0.875rem;
+  color: #1e293b;
+  cursor: pointer;
+  transition: background-color 0.15s, color 0.15s;
+}
+
+.country-combobox-option:hover,
+.country-combobox-option.is-active {
+  background: rgba(63, 61, 139, 0.08);
+  color: #3F3D8B;
+}
+
+.country-combobox-empty {
+  padding: 0.6rem 0.75rem;
+  font-size: 0.875rem;
+  color: #94a3b8;
+}
+
 .toast-container {
   position: fixed;
   top: 88px;

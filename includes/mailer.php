@@ -223,14 +223,15 @@ function send_site_email(string $to, string $subject, string $htmlBody, ?string 
 {
     $settings = email_settings();
 
-    if (!mailer_available()) {
-        log_email($to, $subject, false, 'Mail library (vendor/) not installed on server');
-        return false;
-    }
-
     if (empty($settings['smtp_host']) || empty($settings['smtp_user'])) {
         log_email($to, $subject, false, 'SMTP not configured');
         return false;
+    }
+
+    // Prefer PHPMailer when the library is installed; otherwise fall back to a
+    // dependency-free native SMTP client so email works without vendor/.
+    if (!mailer_available()) {
+        return send_via_native_smtp($settings, $to, $subject, $htmlBody, $replyTo, $replyName);
     }
 
     $mail = new PHPMailer(true);
@@ -254,6 +255,185 @@ function send_site_email(string $to, string $subject, string $htmlBody, ?string 
         log_email($to, $subject, false, $mail->ErrorInfo ?: $e->getMessage());
         return false;
     }
+}
+
+/**
+ * Dependency-free SMTP sender used when PHPMailer/vendor is not installed.
+ * Supports implicit SSL (port 465) and STARTTLS (port 587) with AUTH LOGIN.
+ */
+function send_via_native_smtp(array $settings, string $to, string $subject, string $htmlBody, ?string $replyTo, ?string $replyName): bool
+{
+    $host = (string) $settings['smtp_host'];
+    $port = (int) ($settings['smtp_port'] ?? 465);
+    $user = (string) $settings['smtp_user'];
+    $pass = (string) ($settings['smtp_pass'] ?? '');
+    $fromEmail = $settings['smtp_from_email'] ?: $user;
+    $fromName = $settings['smtp_from_name'] ?: 'Hour of Grace Ministry International';
+
+    if (!validate_email($to)) {
+        log_email($to, $subject, false, 'Invalid recipient address');
+        return false;
+    }
+
+    $error = '';
+    $transport = ($port === 465) ? 'ssl://' : 'tcp://';
+    $context = stream_context_create([
+        'ssl' => ['verify_peer' => false, 'verify_peer_name' => false, 'allow_self_signed' => true],
+    ]);
+
+    $conn = @stream_socket_client(
+        $transport . $host . ':' . $port,
+        $errno,
+        $errstr,
+        20,
+        STREAM_CLIENT_CONNECT,
+        $context
+    );
+
+    if (!$conn) {
+        log_email($to, $subject, false, "Native SMTP connect failed: {$errstr} ({$errno})");
+        return false;
+    }
+
+    stream_set_timeout($conn, 20);
+
+    $read = static function () use ($conn): string {
+        $data = '';
+        while (($line = fgets($conn, 515)) !== false) {
+            $data .= $line;
+            // Multi-line replies use "250-"; the final line uses "250 ".
+            if (strlen($line) < 4 || $line[3] === ' ') {
+                break;
+            }
+        }
+        return $data;
+    };
+
+    $command = static function (string $cmd) use ($conn, $read): string {
+        fwrite($conn, $cmd . "\r\n");
+        return $read();
+    };
+
+    $expect = static function (string $response, string $code) use (&$error): bool {
+        if (strncmp($response, $code, strlen($code)) !== 0) {
+            $error = 'Unexpected SMTP reply: ' . trim($response);
+            return false;
+        }
+        return true;
+    };
+
+    $ehloHost = $_SERVER['SERVER_NAME'] ?? ($_SERVER['HTTP_HOST'] ?? 'localhost');
+
+    try {
+        if (!$expect($read(), '220')) {
+            throw new RuntimeException($error);
+        }
+
+        if (!$expect($command('EHLO ' . $ehloHost), '250')) {
+            throw new RuntimeException($error);
+        }
+
+        // STARTTLS upgrade for submission port 587.
+        if ($port === 587) {
+            if (!$expect($command('STARTTLS'), '220')) {
+                throw new RuntimeException($error);
+            }
+            if (!stream_socket_enable_crypto($conn, true, STREAM_CRYPTO_METHOD_TLS_CLIENT | STREAM_CRYPTO_METHOD_TLSv1_2_CLIENT)) {
+                throw new RuntimeException('STARTTLS negotiation failed');
+            }
+            if (!$expect($command('EHLO ' . $ehloHost), '250')) {
+                throw new RuntimeException($error);
+            }
+        }
+
+        if (!$expect($command('AUTH LOGIN'), '334')) {
+            throw new RuntimeException($error);
+        }
+        if (!$expect($command(base64_encode($user)), '334')) {
+            throw new RuntimeException($error);
+        }
+        if (!$expect($command(base64_encode($pass)), '235')) {
+            throw new RuntimeException('SMTP authentication failed');
+        }
+
+        if (!$expect($command('MAIL FROM:<' . $fromEmail . '>'), '250')) {
+            throw new RuntimeException($error);
+        }
+        if (!$expect($command('RCPT TO:<' . $to . '>'), '25')) {
+            throw new RuntimeException($error);
+        }
+        if (!$expect($command('DATA'), '354')) {
+            throw new RuntimeException($error);
+        }
+
+        $message = build_native_mime_message(
+            $fromEmail,
+            $fromName,
+            $to,
+            $subject,
+            $htmlBody,
+            ($replyTo && validate_email($replyTo)) ? $replyTo : null,
+            $replyName
+        );
+
+        fwrite($conn, $message . "\r\n.\r\n");
+        if (!$expect($read(), '250')) {
+            throw new RuntimeException($error);
+        }
+
+        $command('QUIT');
+        fclose($conn);
+
+        log_email($to, $subject, true);
+        return true;
+    } catch (Throwable $e) {
+        if (is_resource($conn)) {
+            fclose($conn);
+        }
+        log_email($to, $subject, false, 'Native SMTP: ' . $e->getMessage());
+        return false;
+    }
+}
+
+function build_native_mime_message(
+    string $fromEmail,
+    string $fromName,
+    string $to,
+    string $subject,
+    string $htmlBody,
+    ?string $replyTo,
+    ?string $replyName
+): string {
+    $boundary = 'hog_' . bin2hex(random_bytes(12));
+    $encodedName = '=?UTF-8?B?' . base64_encode($fromName) . '?=';
+    $encodedSubject = '=?UTF-8?B?' . base64_encode($subject) . '?=';
+    $plain = html_to_plain_text($htmlBody);
+
+    $headers = [];
+    $headers[] = 'Date: ' . date('r');
+    $headers[] = 'From: ' . $encodedName . ' <' . $fromEmail . '>';
+    $headers[] = 'To: <' . $to . '>';
+    if ($replyTo) {
+        $rn = $replyName ? '=?UTF-8?B?' . base64_encode($replyName) . '?= ' : '';
+        $headers[] = 'Reply-To: ' . $rn . '<' . $replyTo . '>';
+    }
+    $headers[] = 'Subject: ' . $encodedSubject;
+    $headers[] = 'MIME-Version: 1.0';
+    $headers[] = 'Content-Type: multipart/alternative; boundary="' . $boundary . '"';
+
+    $body = '--' . $boundary . "\r\n"
+        . "Content-Type: text/plain; charset=UTF-8\r\n"
+        . "Content-Transfer-Encoding: base64\r\n\r\n"
+        . chunk_split(base64_encode($plain)) . "\r\n"
+        . '--' . $boundary . "\r\n"
+        . "Content-Type: text/html; charset=UTF-8\r\n"
+        . "Content-Transfer-Encoding: base64\r\n\r\n"
+        . chunk_split(base64_encode($htmlBody)) . "\r\n"
+        . '--' . $boundary . "--\r\n";
+
+    // Dot-stuffing: any line starting with "." must be escaped for SMTP DATA.
+    $message = implode("\r\n", $headers) . "\r\n\r\n" . $body;
+    return preg_replace('/^\./m', '..', $message);
 }
 
 function html_to_plain_text(string $html): string
@@ -286,12 +466,12 @@ function test_smtp_connection(): array
 {
     $settings = email_settings();
 
-    if (!mailer_available()) {
-        return ['ok' => false, 'message' => 'Mail library is not installed. Upload the vendor/ folder or run "composer install" on the server.'];
-    }
-
     if (empty($settings['smtp_host']) || empty($settings['smtp_user'])) {
         return ['ok' => false, 'message' => 'SMTP host and username are required. Save settings first.'];
+    }
+
+    if (!mailer_available()) {
+        return test_native_smtp_connection($settings);
     }
 
     $mail = new PHPMailer(true);
@@ -306,6 +486,83 @@ function test_smtp_connection(): array
         return ['ok' => true, 'message' => 'SMTP connection successful to ' . $settings['smtp_host'] . ':' . $settings['smtp_port'] . '.'];
     } catch (Exception $e) {
         return ['ok' => false, 'message' => 'SMTP connection failed: ' . ($mail->ErrorInfo ?: $e->getMessage())];
+    }
+}
+
+/**
+ * Connection test for the native (no-vendor) SMTP path: connect + authenticate.
+ */
+function test_native_smtp_connection(array $settings): array
+{
+    $host = (string) $settings['smtp_host'];
+    $port = (int) ($settings['smtp_port'] ?? 465);
+    $user = (string) $settings['smtp_user'];
+    $pass = (string) ($settings['smtp_pass'] ?? '');
+
+    $transport = ($port === 465) ? 'ssl://' : 'tcp://';
+    $context = stream_context_create([
+        'ssl' => ['verify_peer' => false, 'verify_peer_name' => false, 'allow_self_signed' => true],
+    ]);
+
+    $conn = @stream_socket_client(
+        $transport . $host . ':' . $port,
+        $errno,
+        $errstr,
+        20,
+        STREAM_CLIENT_CONNECT,
+        $context
+    );
+
+    if (!$conn) {
+        return ['ok' => false, 'message' => "Could not connect to {$host}:{$port} — {$errstr} ({$errno})."];
+    }
+
+    stream_set_timeout($conn, 20);
+
+    $read = static function () use ($conn): string {
+        $data = '';
+        while (($line = fgets($conn, 515)) !== false) {
+            $data .= $line;
+            if (strlen($line) < 4 || $line[3] === ' ') {
+                break;
+            }
+        }
+        return $data;
+    };
+    $command = static function (string $cmd) use ($conn, $read): string {
+        fwrite($conn, $cmd . "\r\n");
+        return $read();
+    };
+    $ehloHost = $_SERVER['SERVER_NAME'] ?? ($_SERVER['HTTP_HOST'] ?? 'localhost');
+
+    try {
+        if (strncmp($read(), '220', 3) !== 0) {
+            throw new RuntimeException('No greeting from server.');
+        }
+        if (strncmp($command('EHLO ' . $ehloHost), '250', 3) !== 0) {
+            throw new RuntimeException('EHLO rejected.');
+        }
+        if ($port === 587) {
+            if (strncmp($command('STARTTLS'), '220', 3) !== 0
+                || !stream_socket_enable_crypto($conn, true, STREAM_CRYPTO_METHOD_TLS_CLIENT | STREAM_CRYPTO_METHOD_TLSv1_2_CLIENT)) {
+                throw new RuntimeException('STARTTLS failed.');
+            }
+            $command('EHLO ' . $ehloHost);
+        }
+        if (strncmp($command('AUTH LOGIN'), '334', 3) !== 0
+            || strncmp($command(base64_encode($user)), '334', 3) !== 0
+            || strncmp($command(base64_encode($pass)), '235', 3) !== 0) {
+            throw new RuntimeException('Authentication failed. Check username and password.');
+        }
+        $command('QUIT');
+        fclose($conn);
+
+        return ['ok' => true, 'message' => "SMTP connection successful to {$host}:{$port} (native)."];
+    } catch (Throwable $e) {
+        if (is_resource($conn)) {
+            fclose($conn);
+        }
+        return ['ok' => false, 'message' => 'SMTP connection failed: ' . $e->getMessage()];
     }
 }
 

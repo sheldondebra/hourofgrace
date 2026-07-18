@@ -38,6 +38,7 @@ function admin_icon(string $name): string
         'hero'        => '<rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 15l4-4 3 3 4-5 7 7"/>',
         'giving'      => '<path d="M12 21s-7-4.35-9.5-8.5C1 9 2.5 5.5 6 5.5c2 0 3.2 1.2 4 2.3.8-1.1 2-2.3 4-2.3 3.5 0 5 3.5 3.5 7C19 16.65 12 21 12 21Z"/>',
         'email'       => '<rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/>',
+        'prayer'      => '<path d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/>',
         'profile'     => '<circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 3.6-6 8-6s8 2 8 6"/>',
         'site'        => '<circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.5 2.6 2.5 15.4 0 18M12 3c-2.5 2.6-2.5 15.4 0 18"/>',
         'logout'      => '<path d="M15 4h3a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2h-3"/><path d="M10 17l-5-5 5-5M5 12h11"/>',
@@ -71,9 +72,9 @@ function admin_nav_link(string $href, string $icon, string $label, string $key, 
   <link rel="stylesheet" href="assets/admin.css" />
 </head>
 <body class="admin-body">
-  <div class="admin-shell">
-    <div class="sidebar-scrim" data-close-sidebar></div>
+  <div class="sidebar-scrim" data-close-sidebar aria-hidden="true"></div>
 
+  <div class="admin-shell">
     <aside class="admin-sidebar" id="adminSidebar">
       <div class="sidebar-brand">
         <img src="../assets/logo.png" alt="Hour of Grace" />
@@ -119,7 +120,7 @@ function admin_nav_link(string $href, string $icon, string $label, string $key, 
     <div class="admin-main">
       <header class="admin-topbar">
         <div class="topbar-left">
-          <button type="button" class="menu-toggle" id="menuToggle" aria-label="Open menu" aria-controls="adminSidebar">
+          <button type="button" class="menu-toggle" id="menuToggle" aria-label="Open menu" aria-controls="adminSidebar" aria-expanded="false">
             <span></span><span></span><span></span>
           </button>
           <div>
