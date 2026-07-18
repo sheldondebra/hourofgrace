@@ -69,6 +69,8 @@ function admin_nav_link(string $href, string $icon, string $label, string $key, 
   <meta name="robots" content="noindex, nofollow" />
   <title><?= sanitize($pageTitle) ?> — Hour of Grace Admin</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="assets/admin.css" />
 </head>
 <body class="admin-body">
